@@ -5,7 +5,7 @@ try {
         host: 'www.google.com',
     }, (response) => {
         response.on('data', (data) => {
-            console.log(data.toString());
+            console.log(data.toString().match(/href="(.*?)"/g).);
         });
 
         response.on('error', (error) => {
