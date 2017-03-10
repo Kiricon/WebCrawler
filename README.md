@@ -1,2 +1,2 @@
 # WebCrawler
-A Node.js implementation of a web crawler.
+A Go implementation of a web crawler.
