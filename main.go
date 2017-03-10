@@ -4,13 +4,19 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func main() {
-	fmt.Println(getWebPage("http://valenciana.me"))
+	fmt.Println(getWebPage("valenciana.me"))
 }
 
 func getWebPage(domain string) string {
+
+	if !strings.Contains(domain, "http://") {
+		domain = "http://" + domain
+	}
+
 	resp, err := http.Get(domain)
 	if err != nil {
 		// handle error
