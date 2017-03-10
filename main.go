@@ -13,17 +13,19 @@ func main() {
 
 func getWebPage(domain string) string {
 
+	domain = formatDomain(domain)
+
+	resp, _ := http.Get(domain)
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	defer resp.Body.Close()
+	return string(body)
+}
+
+func formatDomain(domain string) string {
 	if !strings.Contains(domain, "http://") {
 		domain = "http://" + domain
 	}
 
-	resp, err := http.Get(domain)
-	if err != nil {
-		// handle error
-		fmt.Println(err)
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-
-	return string(body)
+	return domain
 }
