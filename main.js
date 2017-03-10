@@ -1,9 +1,17 @@
 const http = require('http');
 
-http.get({
-    host: 'valenciana.me',
-}, (response) => {
-    response.on('data', (data) => {
-        console.log(data.toString());
+try {
+    http.get({
+        host: 'www.google.com',
+    }, (response) => {
+        response.on('data', (data) => {
+            console.log(data.toString());
+        });
+
+        response.on('error', (error) => {
+            console.log(error);
+        });
     });
-});
+} catch(e) {
+    console.log(e);
+}
