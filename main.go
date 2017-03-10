@@ -1,17 +1,23 @@
 package main
 
 import (
-	"net/http"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 func main() {
-	resp, err := http.Get("http://google.com/")
+	fmt.Println(getWebPage("http://valenciana.me"))
+}
+
+func getWebPage(domain string) string {
+	resp, err := http.Get(domain)
 	if err != nil {
 		// handle error
+		fmt.Println(err)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
+
+	return string(body)
 }
