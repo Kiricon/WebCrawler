@@ -1,7 +1,8 @@
 package main
 
-import "WebCrawler/web"
+import "WebCrawler/crawler"
 
 func main() {
-	web.GetPage("valenciana.me")
+	start := crawler.Crawler{"valenciana.me", "/"}
+	start.Crawl()
 }
