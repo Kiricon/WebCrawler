@@ -7,14 +7,13 @@ import (
 )
 
 // GetPage - Function to get a web page as a string
-func GetPage(domain string) {
+func GetPage(domain string) []string {
 
 	domain = formatDomain(domain)
 
 	resp, _ := http.Get(domain)
 	defer resp.Body.Close()
-	parser.GetLinks(resp.Body)
-
+	return parser.GetLinks(resp.Body)
 }
 
 func formatDomain(domain string) string {
