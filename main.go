@@ -10,5 +10,7 @@ func main() {
 	start := crawler.Crawler{Domain: domain, Path: path, AllLinks: allLinks}
 	start.Crawl()
 
-	fmt.Println(allLinks)
+	for k := range allLinks {
+		fmt.Println(k)
+	}
 }
