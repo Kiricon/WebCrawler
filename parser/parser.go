@@ -7,7 +7,7 @@ import (
 )
 
 // GetLinks - Get all links on a web page.
-func GetLinks(body io.Reader) []string {
+func GetLinks(body io.Reader, allLinks map[string]bool) []string {
 	links := []string{}
 	page := html.NewTokenizer(body)
 
@@ -21,6 +21,9 @@ func GetLinks(body io.Reader) []string {
 			for _, attr := range token.Attr {
 				if attr.Key == "href" {
 					links = append(links, attr.Val)
+					if !allLinks[attr.Val] {
+						allLinks[attr.Val] = true
+					}
 				}
 			}
 		}
