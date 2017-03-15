@@ -5,7 +5,7 @@ import "fmt"
 
 func main() {
 	allLinks := make(map[string]bool)
-	domain := "valenciana.me"
+	domain := "motherless.com"
 	path := "/"
 	start := crawler.Crawler{Domain: domain, Path: path, AllLinks: allLinks}
 	start.Crawl()

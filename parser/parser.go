@@ -21,7 +21,7 @@ func GetLinks(body io.Reader, allLinks map[string]bool) []string {
 			for _, attr := range token.Attr {
 				if attr.Key == "href" {
 					links = append(links, attr.Val)
-					if !allLinks[attr.Val] {
+					if !allLinks[attr.Val] && isLocal(attr.Val) {
 						allLinks[attr.Val] = true
 					}
 				}
@@ -29,4 +29,12 @@ func GetLinks(body io.Reader, allLinks map[string]bool) []string {
 		}
 	}
 
+}
+
+func isLocal(link string) bool {
+	if link[0] == '/' {
+		return true
+	}
+
+	return false
 }
