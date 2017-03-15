@@ -11,5 +11,5 @@ type Crawler struct {
 
 // Crawl - Recursively crawls through unexplored links on pages
 func (c *Crawler) Crawl() {
-	web.GetPage(c.Domain+c.Path, c.AllLinks)
+	web.GetPage(c.Domain+c.Path, c.AllLinks, c.Domain)
 }
