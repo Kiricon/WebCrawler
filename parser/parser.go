@@ -58,3 +58,16 @@ func appendToFile(url string) {
 
 	f.Close()
 }
+
+// SetupFile - Setup our data output file if it's missing
+func SetupFile() {
+	if _, err := os.Stat("data.txt"); os.IsNotExist(err) {
+
+		f, ferr := os.Create("data.txt")
+		if ferr != nil {
+			fmt.Println(ferr)
+		}
+		f.Close()
+
+	}
+}
