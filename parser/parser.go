@@ -1,31 +1,28 @@
 package parser
 
 import (
+	"fmt"
 	"io"
 	"os"
-
 	"strings"
-
-	"fmt"
 
 	"golang.org/x/net/html"
 )
 
 // GetLinks - Get all links on a web page.
-func GetLinks(body io.Reader, allLinks map[string]bool, domain string) []string {
-	links := []string{}
+func GetLinks(body io.Reader, allLinks map[string]bool, domain string) {
+
 	page := html.NewTokenizer(body)
 
 	for {
 		tokenType := page.Next()
 		if tokenType == html.ErrorToken {
-			return links
+			return
 		}
 		token := page.Token()
 		if tokenType == html.StartTagToken && token.DataAtom.String() == "a" {
 			for _, attr := range token.Attr {
 				if attr.Key == "href" {
-					links = append(links, attr.Val)
 					if !allLinks[attr.Val] && isLocal(attr.Val, domain) {
 						allLinks[attr.Val] = true
 						appendToFile(attr.Val)
@@ -67,6 +64,7 @@ func SetupFile() {
 		if ferr != nil {
 			fmt.Println(ferr)
 		}
+		fmt.Println("Data File Created!")
 		f.Close()
 
 	}
