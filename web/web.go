@@ -2,6 +2,7 @@ package web
 
 import (
 	"WebCrawler/parser"
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -11,7 +12,10 @@ func GetPage(url string, allLinks map[string]bool, domain string) {
 
 	url = formatDomain(url)
 
-	resp, _ := http.Get(url)
+	resp, respErr := http.Get(url)
+	if respErr != nil {
+		fmt.Println(respErr)
+	}
 	defer resp.Body.Close()
 	parser.GetLinks(resp.Body, allLinks, domain)
 }
