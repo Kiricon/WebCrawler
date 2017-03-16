@@ -28,17 +28,7 @@ func GetLinks(body io.Reader, allLinks map[string]bool, domain string) []string 
 					links = append(links, attr.Val)
 					if !allLinks[attr.Val] && isLocal(attr.Val, domain) {
 						allLinks[attr.Val] = true
-						f, err := os.OpenFile("data.txt", os.O_APPEND|os.O_WRONLY, 0666)
-						if err != nil {
-							fmt.Println(err)
-						}
-						n, nerr := f.WriteString(attr.Val + "\n")
-						if nerr != nil {
-							fmt.Println(nerr)
-							fmt.Println(n)
-						}
-
-						f.Close()
+						appendToFile(attr.Val)
 					}
 				}
 			}
@@ -53,4 +43,18 @@ func isLocal(link string, domain string) bool {
 	}
 
 	return false
+}
+
+func appendToFile(url string) {
+	f, err := os.OpenFile("data.txt", os.O_APPEND|os.O_WRONLY, 0666)
+	if err != nil {
+		fmt.Println(err)
+	}
+	n, nerr := f.WriteString(url + "\n")
+	if nerr != nil {
+		fmt.Println(nerr)
+		fmt.Println(n)
+	}
+
+	f.Close()
 }
