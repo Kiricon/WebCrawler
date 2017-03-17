@@ -23,15 +23,19 @@ func GetLinks(body io.Reader, allLinks map[string]bool, domain string) {
 		if tokenType == html.StartTagToken && token.DataAtom.String() == "a" {
 			for _, attr := range token.Attr {
 				if attr.Key == "href" {
-					if !allLinks[attr.Val] && isLocal(attr.Val, domain) {
-						allLinks[attr.Val] = true
-						appendToFile(attr.Val)
-					}
+					handelLink(allLinks, attr.Val, domain)
 				}
 			}
 		}
 	}
 
+}
+
+func handelLink(allLinks map[string]bool, url string, domain string) {
+	if !allLinks[url] && isLocal(url, domain) {
+		allLinks[url] = true
+		appendToFile(url)
+	}
 }
 
 func isLocal(link string, domain string) bool {
