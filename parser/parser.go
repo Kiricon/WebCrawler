@@ -2,43 +2,12 @@ package parser
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"strings"
-
-	"golang.org/x/net/html"
 )
 
-// GetLinks - Get all links on a web page.
-func GetLinks(body io.Reader, allLinks map[string]bool, domain string) {
-
-	page := html.NewTokenizer(body)
-
-	for {
-		tokenType := page.Next()
-		if tokenType == html.ErrorToken {
-			return
-		}
-		token := page.Token()
-		if tokenType == html.StartTagToken && token.DataAtom.String() == "a" {
-			for _, attr := range token.Attr {
-				if attr.Key == "href" {
-					handelLink(allLinks, attr.Val, domain)
-				}
-			}
-		}
-	}
-
-}
-
-func handelLink(allLinks map[string]bool, url string, domain string) {
-	if !allLinks[url] && isLocal(url, domain) {
-		allLinks[url] = true
-		appendToFile(url)
-	}
-}
-
-func isLocal(link string, domain string) bool {
+// IsLocal - Check if a link is foreign or local
+func IsLocal(link string, domain string) bool {
 	if link[0] == '/' || strings.Contains(link, domain) {
 		return true
 	}
@@ -46,7 +15,8 @@ func isLocal(link string, domain string) bool {
 	return false
 }
 
-func appendToFile(url string) {
+// AppendToFile - Append a url to the file
+func AppendToFile(url string) {
 	f, err := os.OpenFile("data.txt", os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Println(err)
