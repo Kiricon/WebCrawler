@@ -17,12 +17,13 @@ type Crawler struct {
 	Domain   string
 	Path     string
 	AllLinks map[string]bool
+	Wg       *sync.WaitGroup
 }
 
 // Crawl - Recursively crawls through unexplored links on pages
-func (c *Crawler) Crawl(wg *sync.WaitGroup) {
+func (c *Crawler) Crawl() {
 	c.GetPage()
-	wg.Done()
+	c.Wg.Done()
 }
 
 // GetPage - Function to get a web page as a string
@@ -39,13 +40,13 @@ func (c *Crawler) GetPage() {
 }
 
 //MakeNewCrawler - Make a new webcrawler for the sub page
-func MakeNewCrawler(domain string, path string, allLinks map[string]bool) Crawler {
+func makeNewCrawler(domain string, path string, allLinks map[string]bool, wg *sync.WaitGroup) Crawler {
 
 	if path[0] != '/' {
 		path = strings.Replace(path, domain, "", 1)
 	}
 	fmt.Println(path)
-	return Crawler{Domain: domain, Path: path, AllLinks: allLinks}
+	return Crawler{Domain: domain, Path: path, AllLinks: allLinks, Wg: wg}
 }
 
 func (c *Crawler) getLinks(body io.Reader) {
@@ -73,6 +74,9 @@ func (c *Crawler) handelLink(linkURL string) {
 	if !c.AllLinks[linkURL] && parser.IsLocal(linkURL, c.Domain) {
 		c.AllLinks[linkURL] = true
 		parser.AppendToFile(linkURL)
-		//newCrawler := crawler.MakeNewCrawler(domain, url, allLinks)
+		newCrawler := makeNewCrawler(c.Domain, linkURL, c.AllLinks, c.Wg)
+		c.Wg.Add(1)
+		fmt.Println("New Crawler For: " + linkURL)
+		newCrawler.Crawl()
 	}
 }
