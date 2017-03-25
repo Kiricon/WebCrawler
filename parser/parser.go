@@ -8,7 +8,11 @@ import (
 
 // IsLocal - Check if a link is foreign or local
 func IsLocal(link string, domain string) bool {
-	if link[0] == '/' || strings.Contains(link, domain) {
+	if link[0] == '/' {
+		return true
+	}
+
+	if strings.Contains(link, "://"+domain) {
 		return true
 	}
 
