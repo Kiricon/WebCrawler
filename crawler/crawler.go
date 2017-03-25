@@ -43,7 +43,8 @@ func (c *Crawler) GetPage() {
 func makeNewCrawler(domain string, path string, allLinks map[string]bool, wg *sync.WaitGroup) Crawler {
 
 	if path[0] != '/' {
-		path = strings.Replace(path, domain, "", 1)
+		//path = strings.Replace(path, domain, "", 1)
+		path = strings.Split(path, domain)[1]
 	}
 	fmt.Println(path)
 	return Crawler{Domain: domain, Path: path, AllLinks: allLinks, Wg: wg}
