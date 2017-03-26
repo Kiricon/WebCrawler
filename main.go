@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	stats := stats.Stats{0, 0}
+	stats := stats.Stats{TotalLinks: 0, TotalRoutines: 0}
 
 	parser.SetupFile()
 	var wg sync.WaitGroup
