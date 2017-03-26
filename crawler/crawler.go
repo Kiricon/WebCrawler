@@ -83,7 +83,7 @@ func (c *Crawler) handelLink(linkURL string) {
 			newCrawler := makeNewCrawler(c.Domain, linkURL, c.AllLinks, c.Wg, c.Stats)
 			c.Wg.Add(1)
 			c.Stats.TotalRoutines++
-			newCrawler.Crawl()
+			go newCrawler.Crawl()
 		}
 	}
 }
