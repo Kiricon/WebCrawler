@@ -55,7 +55,7 @@ func makeNewCrawler(domain string, path string, allLinks map[string]bool, wg *sy
 func (c *Crawler) getLinks(body io.Reader) {
 
 	page := html.NewTokenizer(body)
-
+	c.Stats.TotalRoutines--
 	for {
 		tokenType := page.Next()
 		if tokenType == html.ErrorToken {
