@@ -4,6 +4,7 @@ import (
 	"WebCrawler/crawler"
 	"WebCrawler/parser"
 	"WebCrawler/stats"
+	"WebCrawler/terminal"
 	"fmt"
 	"sync"
 )
@@ -11,6 +12,7 @@ import (
 func main() {
 
 	stats := stats.Stats{TotalLinks: 0, TotalRoutines: 0}
+	display := terminal.NewDisplay()
 
 	parser.SetupFile()
 	var wg sync.WaitGroup
@@ -23,9 +25,9 @@ func main() {
 	wg.Add(1)
 	stats.TotalRoutines++
 	go start.Crawl()
+	go display.Draw()
 
 	wg.Wait()
-	fmt.Println()
 	fmt.Println("Done")
 
 }
