@@ -12,7 +12,7 @@ import (
 func main() {
 
 	stats := stats.Stats{TotalLinks: 0, TotalRoutines: 0}
-	display := terminal.NewDisplay()
+	display := terminal.NewDisplay(&stats)
 
 	parser.SetupFile()
 	var wg sync.WaitGroup
