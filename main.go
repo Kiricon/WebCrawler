@@ -21,6 +21,7 @@ func main() {
 	start := crawler.Crawler{Domain: domain, Path: path, AllLinks: allLinks, Wg: &wg, Stats: &stats}
 
 	wg.Add(1)
+	stats.TotalRoutines++
 	go start.Crawl()
 
 	wg.Wait()
