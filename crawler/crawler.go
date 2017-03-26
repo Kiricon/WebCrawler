@@ -24,8 +24,6 @@ type Crawler struct {
 
 // Crawl - Recursively crawls through unexplored links on pages
 func (c *Crawler) Crawl() {
-	//fmt.Println(c.Stats.TotalLinks)
-	fmt.Printf("\r Links Found:%d | Running Routines:%d", c.Stats.TotalLinks, c.Stats.TotalRoutines)
 	c.GetPage()
 	c.Wg.Done()
 	c.Stats.TotalRoutines--
