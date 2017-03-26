@@ -24,9 +24,11 @@ type Crawler struct {
 
 // Crawl - Recursively crawls through unexplored links on pages
 func (c *Crawler) Crawl() {
-	fmt.Println(c.Stats.TotalLinks)
+	//fmt.Println(c.Stats.TotalLinks)
+	fmt.Printf("\r Links Found:%d | Running Routines:%d", c.Stats.TotalLinks, c.Stats.TotalRoutines)
 	c.GetPage()
 	c.Wg.Done()
+	c.Stats.TotalRoutines--
 }
 
 // GetPage - Function to get a web page as a string
@@ -55,7 +57,6 @@ func makeNewCrawler(domain string, path string, allLinks map[string]bool, wg *sy
 func (c *Crawler) getLinks(body io.Reader) {
 
 	page := html.NewTokenizer(body)
-	c.Stats.TotalRoutines--
 	for {
 		tokenType := page.Next()
 		if tokenType == html.ErrorToken {

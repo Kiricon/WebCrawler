@@ -16,7 +16,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	allLinks := make(map[string]bool)
-	domain := "wikipedia.org"
+	domain := "usfigureskating.org"
 	path := "/"
 	start := crawler.Crawler{Domain: domain, Path: path, AllLinks: allLinks, Wg: &wg, Stats: &stats}
 
@@ -25,6 +25,7 @@ func main() {
 	go start.Crawl()
 
 	wg.Wait()
+	fmt.Println()
 	fmt.Println("Done")
 
 }
